@@ -12,9 +12,8 @@ def test_alphabet_rand_string():
     assert all(x in a.alphabet for x in rand_string)
 def test_nth_string():
     a = Alphabet(1,2,3,4,5)
-    assert a.get_nth_string(25) == (4,4)
+    assert a.lexi(0) == []
+    assert a.lexi(1) == [1]
+    assert a.lexi(25) == [4,5]
     a = Alphabet(1,2,3)
-    assert a.get_nth_string(25) == (2,1,3)
-    print("begin")
-    for i in range(10):
-        print(a.get_nth_string(i))
+    assert a.lexi(25) == [2,2,1]
