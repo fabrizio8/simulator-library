@@ -23,9 +23,17 @@ def test_nth_string():
     a = Alphabet(1,2,3)
     assert a.lexi(25) == [2,2,1]
 
-def test_dfa():
+def test_dfa_no_string():
     DFA([1],
         Alphabet(1,2,3,4,5),
         lambda a: 1,
         1,
         None)
+
+def test_dfa_empty_string():
+    DFA([1,2],
+        Alphabet(1,2,3,4,5),
+        lambda a: 2,
+        1,
+        1)
+
