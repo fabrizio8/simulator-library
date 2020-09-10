@@ -39,3 +39,9 @@ class DFA:
 
 #    def language():
 
+def gen_DFA_that_accepts_strings_of_exactly_arg(x):
+    return DFA([1,2,3],
+                Alphabet(1,2,3,4,5),
+                lambda a,x: 2 if a == x else 3,
+                1,
+                2)
