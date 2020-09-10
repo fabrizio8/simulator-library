@@ -1,5 +1,5 @@
 from random import randint
-from typing import Callable
+from typing import Callable, Dict
 
 class Alphabet:
     alphabet = []
@@ -16,17 +16,26 @@ class Alphabet:
             return []
         return self.lexi((n-1)//len(self.alphabet)) + [self.alphabet[(n-1)%len(self.alphabet)]]
 
-
+'''
+Q is a finite set called the states,
+Σ is a finite set called the alphabet,
+δ : Q × Σ→Q is the transition function
+q 0 ∈ Q is the start state, and
+F ⊆ Q is the set of accept states
+'''
 class DFA:
     Q: Callable = None
     sig: Alphabet = None
-    delt: Callable = None
+    delt: Dict = None
     q = None
     F: Callable = None
     
-    def __init__(Q,sig,delt,q,F):
+    def __init__(self, Q,sig,delt,q,F):
         self.Q = Q
         self.sig = sig
         self.delt = delt
         self.q = q
         self.F = F
+
+#    def language():
+
