@@ -44,14 +44,18 @@ def gen_DFA_that_accepts_strings_of_exactly_arg(x):
                 1,
                 [2])
 
-def trace(dfa, string):
+def accepted(dfa, string, trace=False):
     state = dfa.q
-    print(state, end='')
-    for i in string:
-        print(',',end="")
-        state = dfa.delt(state,i)
+    if trace:
         print(state, end='')
-    print()
+    for c in string:
+        if trace:
+            print(',',end="")
+        state = dfa.delt(state,c)
+        if trace:
+            print(state, end='')
+    if trace:
+        print()
     if state in dfa.F:
         return True
     else:
