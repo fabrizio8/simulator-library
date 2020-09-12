@@ -29,9 +29,8 @@ class DFA:
     q = None
     F = []
     
-    def __init__(self, Q,sig,delt,q,F):
+    def __init__(self,Q,delt,q,F):
         self.Q = Q
-        self.sig = sig
         self.delt = delt
         self.q = q
         self.F = F
@@ -44,3 +43,17 @@ def gen_DFA_that_accepts_strings_of_exactly_arg(x):
                               3: 3, }[s],
                 1,
                 [2])
+
+def trace(dfa, string):
+    state = dfa.q
+    print(state, end='')
+    for i in string:
+        print(',',end="")
+        state = dfa.delt(state,i)
+        print(state, end='')
+    print()
+    if state in dfa.F:
+        return True
+    else:
+        return False
+
