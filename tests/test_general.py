@@ -25,15 +25,12 @@ def test_nth_string():
 
 def test_dfa_no_string():
     DFA([1],
-        Alphabet(1,2,3,4,5),
         lambda a: 1,
         1,
-        None)
+        [])
 
 def test_dfa_empty_string():
     DFA([1,2],
-        Alphabet(1,2,3,4,5),
         lambda a: 2,
         1,
-        1)
-
+        [1])

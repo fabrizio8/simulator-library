@@ -24,11 +24,10 @@ q 0 ∈ Q is the start state, and
 F ⊆ Q is the set of accept states
 '''
 class DFA:
-    Q: Callable = None
-    sig: Alphabet = None
-    delt: Dict = None
+    Q = []
+    delt: Callable = None
     q = None
-    F: Callable = None
+    F = []
     
     def __init__(self, Q,sig,delt,q,F):
         self.Q = Q
@@ -37,11 +36,11 @@ class DFA:
         self.q = q
         self.F = F
 
-#    def language():
 
 def gen_DFA_that_accepts_strings_of_exactly_arg(x):
     return DFA([1,2,3],
-                Alphabet(1,2,3,4,5),
-                lambda a,x: 2 if a == x else 3,
+                lambda s,c: { 1: 2 if c==x else 3,
+                              2: 3,
+                              3: 3, }[s],
                 1,
-                2)
+                [2])
