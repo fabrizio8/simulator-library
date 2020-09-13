@@ -78,6 +78,9 @@ def intersect(A, B):
 def subset(A, B):
     return bool(find_accepted_string(intersect(A, B.complement()))) == False
 
+def equal(A,B):
+    return subset(A,B) and subset(B,A)
+
 def gen_DFA_that_accepts_strings_of_exactly_arg(x):
     return DFA({1,2,3},
                 lambda s,c: { 1: 2 if c==x else 3,
