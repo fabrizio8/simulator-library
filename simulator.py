@@ -31,26 +31,31 @@ class DFA:
     delt: Callable = None
     q = None
     F = set()
+    sigma = set()
     
-    def __init__(self,Q,delt,q,F):
+    def __init__(self,Q,delt,q,F,sigma=None):
         self.Q = Q
         self.delt = delt
         self.q = q
         self.F = F
+        self.sigma = sigma
 
     
     def complement(self):
         return DFA(self.Q,
                     self.delt,
                     self.q,
-                    self.Q - self.F)
+                    self.Q - self.F,
+                    self.sigma)
+
 
 def union(A, B):
     return DFA(
                set(product(A.Q, B.Q)),
                lambda s,c: (A.delt(s[0], c), B.delt(s[1],c)),
                (A.q, B.q),
-               set(product(A.F, B.Q))|(set(product(A.Q, B.F)))
+               set(product(A.F, B.Q))|(set(product(A.Q, B.F))),
+               A.sigma|B.sigma,
               )
 
 def intersect(A, B):
@@ -60,6 +65,9 @@ def intersect(A, B):
                (A.q, B.q),
                set(product(A.F, B.F))
               )
+
+def subset(A, B):
+    return bool(find_accepted_string(intersect(A, B.complement()))) == False
 
 def gen_DFA_that_accepts_strings_of_exactly_arg(x):
     return DFA({1,2,3},
@@ -85,21 +93,3 @@ def accepted(dfa, string, trace=False):
         return True
     else:
         return False
-
-def find_accepted_string(dfa, sigma):
-    # no accepted states, won't find an acceptable string
-    if not dfa.F:
-        return None
-    graph = gen_graph(dfa, sigma)
-    path = []
-    for accepting in dfa.F:
-        if path:
-            break
-        path = bfs(graph, dfa.q, accepting)
-    string = []
-    for idx, node in enumerate(path[:-1]):
-        for c in sigma:
-            if dfa.delt(path[idx],c) == path[idx+1]:
-                string.append(c)
-                break
-    return string

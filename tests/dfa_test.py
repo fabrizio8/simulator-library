@@ -1,7 +1,6 @@
 import pytest
 from simulator import *
 from example_dfa import *
-from string import ascii_letters as alphabet, digits
 
 def test_even_chars():
     assert accepted(even_chars, [1,2,3,4,5,6], trace=True)
@@ -100,20 +99,10 @@ def test_loooong():
     assert not accepted(loooong, list("MINISCULE"), trace=True)
 
 def test_dfa_graph_gen():
-    binary = [0,1]
-    dfas = {
-            even_chars: list(alphabet),
-            my_name: list(alphabet),
-            traffic_light: [1,2,3],
-            substring_101: binary,
-            is_it_morning: list(range(24)),
-            first_and_last_char_is_x: list(alphabet),
-            binary_string_all_1: binary,
-            capitalized_first_letter_only: list(alphabet),
-            strictly_alternating: binary,
-            at_least_3: list(range(10)),
-            is_weekend: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
-            loooong: list(alphabet) + list(digits)
-            }
-    for dfa, sigma in dfas.items():
-        assert accepted(dfa, find_accepted_string(dfa, sigma), trace=True)
+    dfas = [
+            even_chars,my_name,traffic_light,substring_101,is_it_morning,
+            first_and_last_char_is_x,binary_string_all_1,capitalized_first_letter_only,
+            strictly_alternating,at_least_3,is_weekend,loooong 
+            ]
+    for dfa in dfas:
+        assert accepted(dfa, find_accepted_string(dfa), trace=True)

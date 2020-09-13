@@ -1,9 +1,9 @@
 from collections import deque
 
-def gen_graph(dfa, sigma):
+def gen_graph(dfa):
     graph = {}
     for state in dfa.Q:
-        graph[state] = list({dfa.delt(state, c) for c in sigma})
+        graph[state] = list({dfa.delt(state, c) for c in dfa.sigma})
     return graph
 
 
@@ -26,3 +26,21 @@ def bfs(graph, start, end):
                 queue.append(new_path)
 
             visited.add(vertex)
+
+def find_accepted_string(dfa):
+    # no accepted states, won't find an acceptable string
+    if not dfa.F:
+        return None
+    graph = gen_graph(dfa)
+    path = []
+    for accepting in dfa.F:
+        if path:
+            break
+        path = bfs(graph, dfa.q, accepting)
+    string = []
+    for idx, node in enumerate(path[:-1]):
+        for c in dfa.sigma:
+            if dfa.delt(path[idx],c) == path[idx+1]:
+                string.append(c)
+                break
+    return string
