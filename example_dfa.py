@@ -46,7 +46,7 @@ substring_101 = DFA({1,2,3,4},
 
 # accepts string of hours if the last hour was in the morning.
 is_it_morning = DFA({'Morning', 'Not Morning'},
-                lambda s,c: 'Not Morning' if c  >= 12  else 'Morning',
+                lambda s,c: 'Not Morning' if type(c) == int and c >= 12 else 'Morning' if type(c) == int else 'Not Morning',
                 'Not Morning',
                 {'Morning'})
 

@@ -115,5 +115,5 @@ def test_dfa_graph_gen():
             is_weekend: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
             loooong: list(alphabet) + list(digits)
             }
-    for dfa in dfas:
-        assert accepted(dfa, find_accepted_string(dfa, dfas[dfa]), trace=True)
+    for dfa, sigma in dfas.items():
+        assert accepted(dfa, find_accepted_string(dfa, sigma), trace=True)

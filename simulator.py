@@ -1,7 +1,8 @@
 from random import randint
 from typing import Callable, Dict
 from collections import deque
-from itertools import combinations
+from itertools import combinations, product
+from util import *
 
 class Alphabet:
     alphabet = []
@@ -44,6 +45,14 @@ class DFA:
                     self.q,
                     self.Q - self.F)
 
+def union(A, B):
+    return DFA(
+               set(product(A.Q, B.Q)),
+               lambda s,c: (A.delt(s[0], c), B.delt(s[1],c)),
+               (A.q, B.q),
+               set(product(A.F, B.Q))|(set(product(A.Q, B.F)))
+              )
+
 def gen_DFA_that_accepts_strings_of_exactly_arg(x):
     return DFA({1,2,3},
                 lambda s,c: { 1: 2 if c==x else 3,
@@ -69,35 +78,6 @@ def accepted(dfa, string, trace=False):
     else:
         return False
 
-
-def gen_graph(dfa, sigma):
-    graph = {}
-    for state in dfa.Q:
-        graph[state] = list({dfa.delt(state, c) for c in sigma})
-    return graph
-
-
-def bfs(graph, start, end):
-    queue = deque()
-    queue.append([start])
-    visited = set()
-
-    while queue:
-        path = queue.popleft()
-        vertex = path[-1]
-
-        if vertex == end:
-            return path
-        elif vertex not in visited:
-            # enumerate all adjacent nodes, construct a new path and push it into the queue
-            for current_neighbour in graph.get(vertex, []):
-                new_path = list(path)
-                new_path.append(current_neighbour)
-                queue.append(new_path)
-
-            visited.add(vertex)
-
-
 def find_accepted_string(dfa, sigma):
     # no accepted states, won't find an acceptable string
     if not dfa.F:
@@ -115,5 +95,3 @@ def find_accepted_string(dfa, sigma):
                 string.append(c)
                 break
     return string
-
-
