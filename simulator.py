@@ -37,6 +37,12 @@ class DFA:
         self.q = q
         self.F = F
 
+    
+    def complement(self):
+        return DFA(self.Q,
+                    self.delt,
+                    self.q,
+                    self.Q - self.F)
 
 def gen_DFA_that_accepts_strings_of_exactly_arg(x):
     return DFA({1,2,3},
@@ -108,5 +114,6 @@ def find_accepted_string(dfa, sigma):
             if dfa.delt(path[idx],c) == path[idx+1]:
                 string.append(c)
                 break
-    print('res', string)
     return string
+
+
