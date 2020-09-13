@@ -28,11 +28,11 @@ my_name = DFA([1,2,3,4,5,6,7,8,9,10],
 # 0 = hold color, 1 = go forward, 2 = go back
 # traffic light follows the cycle R->Y->G->Y->R
 traffic_light = DFA(['R','Y','G'],
-                    lambda s,c: {1: 1 if c==0 else 2,
-                                 2: 2 if c==0 else 3 if c==1 else 1,
-                                 3: 3 if c==0 else 2}[s],
-                    1,
-                    [2,3])
+                    lambda s,c: {'R': 'R' if c==0 else 'Y',
+                                 'Y': 'Y' if c==0 else 'G' if c==1 else 'R',
+                                 'G': 'G' if c==0 else 'Y'}[s],
+                    'R',
+                    ['Y','G'])
 
 
 # accepts binary strings with substrings 101
@@ -64,7 +64,7 @@ binary_string_all_1 = DFA([1,2,3],
                     1,
                     [2])
 
-# accepts all strings with only the first character capitalized
+# accepts strings with only the first character capitalized
 capitalized_first_letter_only = DFA([1,2,3,4],
                         lambda s,c: {1: 2 if c.isupper() else 4,
                                      2: 3 if c.islower() else 4,
@@ -101,8 +101,8 @@ is_weekend = DFA([1,'Weekend', 'Weekday'],
 
 # accepts l0o0oO0o0oong strings
 loooong = DFA([1,2,3,4,5,6],
-        lambda s,c: {1: 2 if c in ['l', 'L'] else 4,
-                     2: 3 if c in ['o', 'O', '0'] else 5,
+        lambda s,c: {1: 2 if c in ['l', 'L'] else 6,
+                     2: 3 if c in ['o', 'O', '0'] else 6,
                      3: 3 if c in ['o', 'O', '0'] else 4 if c == 'n' else 6,
                      4: 5 if c == 'g' else 6,
                      5: 6,
