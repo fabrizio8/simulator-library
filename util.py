@@ -3,7 +3,10 @@ from collections import deque
 def gen_graph(dfa):
     graph = {}
     for state in dfa.Q:
-        graph[state] = list({dfa.delt(state, c) for c in dfa.sigma})
+        try:
+            graph[state] = list({dfa.delt(state, c) for c in dfa.sigma})
+        except:
+            print(dfa)
     return graph
 
 
@@ -38,6 +41,8 @@ def find_accepted_string(dfa):
             break
         path = bfs(graph, dfa.q, accepting)
     string = []
+    if not path:
+        return None
     for idx, node in enumerate(path[:-1]):
         for c in dfa.sigma:
             if dfa.delt(path[idx],c) == path[idx+1]:

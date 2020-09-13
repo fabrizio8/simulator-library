@@ -4,173 +4,36 @@ from example_dfa import *
 def test_even_and_my_name():
     assert not subset(even_chars, my_name)
 
-# def test_even_chars_and_is_it_morning():
-#     dfa_u = intersect(even_chars, is_it_morning)
-#     assert accepted(dfa_u, [1,2,3,4,5,6], trace=True)
-#     assert not accepted(dfa_u, [], trace=True)
-#     assert accepted(dfa_u, [1,2], trace=True)
-#     assert not accepted(dfa_u, [21], trace=True)
-#     assert not accepted(dfa_u, [11,22,23], trace=True)
-#     assert not accepted(dfa_u, [12,22,23,14,15], trace=True)
-#     assert accepted(dfa_u, list(range(23,-1,-1)), trace=True)
-#     assert accepted(dfa_u, [5,5], trace=True)
-#     assert accepted(dfa_u, list(range(10,0,-1)), trace=True)
-#     assert not accepted(dfa_u, list(range(23)), trace=True)
-#     assert not accepted(dfa_u, [12], trace=True)
-#     assert accepted(dfa_u, [0, 5, 10, 11], trace=True)
+# I don't understand why this one is true
+def test_even_chars_and_is_it_morning():
+    assert subset(even_chars, is_it_morning)
 
-# def test_traffic_light_and_substring101():
-#     dfa_u = intersect(traffic_light, substring_101)
-#     assert accepted(dfa_u, [0, 0, 0, 0, 1, 1, 1, 2, 1, 0, 0, 0] , trace=True)
-#     assert accepted(dfa_u, [0, 0, 0, 0, 1, 1, 1, 2, 1] , trace=True)
-#     assert accepted(dfa_u, [0, 0, 0, 0, 1, 1, 1, 2, 1, 0, 0, 0,1,2] , trace=True)
-#     assert not accepted(dfa_u, [0, 0, 0, 0, 1, 1, 1, 2] , trace=True)
-#     assert not accepted(dfa_u, [1, 1, 2, 2], trace=True)
-#     assert not accepted(dfa_u, [0]*2000, trace=True)
-#     assert accepted(dfa_u, [1, 0, 1], trace=True)
-#     assert accepted(dfa_u, [1, 0, 1] + [1, 0]*10, trace=True)
-#     assert accepted(dfa_u, [0] * 10 + [1, 0, 1], trace=True)
-#     assert not accepted(dfa_u, [], trace=True)
-#     assert accepted(dfa_u, [1, 0, 1], trace=True)
-#     assert accepted(dfa_u, [1, 1, 1, 0, 1], trace=True)
+def test_traffic_light_and_substring101():
+    assert not subset(traffic_light, substring_101)
 
-# def test_traffic_light_and_all_1s():
-#     dfa_u = intersect(traffic_light, binary_string_all_1)
-#     assert not accepted(dfa_u, [0, 0, 0, 0, 1, 1, 1, 2, 1, 0, 0, 0] , trace=True)
-#     assert not accepted(dfa_u, [0, 0, 0, 0, 1, 1, 1, 2, 1] , trace=True)
-#     assert not accepted(dfa_u, [0, 0, 0, 0, 1, 1, 1, 2, 1, 0, 0, 0,1,2] , trace=True)
-#     assert not accepted(dfa_u, [0, 1], trace=True)
-#     assert not accepted(dfa_u, [0, 0, 0, 0, 1, 1, 1, 2] , trace=True)
-#     assert not accepted(dfa_u, [1, 1, 2, 2], trace=True)
-#     assert not accepted(dfa_u, [0]*2000, trace=True)
-#     assert accepted(dfa_u, [1,1,1,1,1,1,1,1], trace=True)
-#     assert accepted(dfa_u, [1]*25, trace=True)
-#     assert accepted(dfa_u, [1], trace=True)
-#     assert not accepted(dfa_u, [], trace=True)
-#     assert not accepted(dfa_u, [1]*5 + [0,2], trace=True)
+def test_traffic_light_and_all_1s():
+    assert subset(binary_string_all_1, traffic_light)
 
+def test_substring_101_and_strictly_alternating():
+    assert not subset(substring_101, strictly_alternating)
 
-# def test_substring_101_and_strictly_alternating():
-#     dfa_u = intersect(substring_101, strictly_alternating)
-#     assert accepted(dfa_u, [1, 0, 1,0], trace=True)
-#     assert accepted(dfa_u, [1, 0] + [1, 0]*10, trace=True)
-#     assert not accepted(dfa_u, [0] * 10 + [1, 0, 1], trace=True)
-#     assert not accepted(dfa_u, [], trace=True)
-#     assert accepted(dfa_u, [1, 0, 1, 0], trace=True)
-#     assert not accepted(dfa_u, [1, 1, 1, 0, 0, 0, 1], trace=True)
-#     assert accepted(dfa_u, [1, 0] * 5, trace=True)
-#     assert accepted(dfa_u, [1, 0, 1, 0, 1, 0, 1, 0, 1, 0], trace=True)
-#     assert not accepted(dfa_u, [1, 0], trace=True)
-#     assert not accepted(dfa_u, [], trace=True)
-#     assert not accepted(dfa_u, [1, 1], trace=True)
-#     assert not accepted(dfa_u, [1, 0, 1], trace=True)
+def test_morning_and_first_last_x():
+    assert not subset(is_it_morning, first_and_last_char_is_x)
 
+def test_string_all_1_and_strictly_alternating():
+    assert not subset(binary_string_all_1, strictly_alternating) 
 
-# def test_morning_and_first_last_x():
-#     dfa_u = intersect(is_it_morning, first_and_last_char_is_x)
-#     assert not accepted(dfa_u, list(range(23,0,-1)), trace=True)
-#     assert not accepted(dfa_u, [5], trace=True)
-#     assert not accepted(dfa_u, list(range(10,0,-1)), trace=True)
-#     assert not accepted(dfa_u, list(range(23)), trace=True)
-#     assert not accepted(dfa_u, [12], trace=True)
-#     assert not accepted(dfa_u, [0, 5, 10, 15], trace=True)
-#     assert not accepted(dfa_u, list('x'), trace=True)
-#     assert not accepted(dfa_u, list('xx'), trace=True)
-#     assert not accepted(dfa_u, list('xasdafkshfkajdx'), trace=True)
-#     assert not accepted(dfa_u, list('xa'), trace=True)
-#     assert not accepted(dfa_u, list('xxxxxxxxxxa'), trace=True)
-#     assert not accepted(dfa_u, [], trace=True)
+def test_at_least_3_and_is_weekend():
+    assert not subset(at_least_3, is_weekend)
 
-# def test_string_all_1_and_strictly_alternating():
-#     dfa_u = intersect(binary_string_all_1, strictly_alternating) 
-#     assert not accepted(dfa_u, [1,1,1,1,1,1,1,1], trace=True)
-#     assert not accepted(dfa_u, [1]*25, trace=True)
-#     assert not accepted(dfa_u, [1], trace=True)
-#     assert not accepted(dfa_u, [], trace=True)
-#     assert not accepted(dfa_u, [0, 1], trace=True)
-#     assert not accepted(dfa_u, [1]*5 + [0], trace=True)
-#     assert not accepted(dfa_u, [1, 0] * 5, trace=True)
-#     assert not accepted(dfa_u, [1, 0, 1, 0, 1, 0, 1, 0, 1, 0], trace=True)
-#     assert not accepted(dfa_u, [1, 0], trace=True)
-#     assert not accepted(dfa_u, [], trace=True)
-#     assert not accepted(dfa_u, [1, 1], trace=True)
-#     assert not accepted(dfa_u, [1, 0, 1], trace=True)
+def test_at_least_3_and_loooong():
+    assert subset(loooong, at_least_3)
 
-# def test_at_least_3_and_is_weekend():
-#     dfa_u = intersect(at_least_3, is_weekend)
-#     assert not accepted(dfa_u, list("onetwothree"), trace=True)
-#     assert not accepted(dfa_u, [1, 2, 3], trace=True)
-#     assert not accepted(dfa_u, ["hello", "my", "name", "is", "three"], trace=True)
-#     assert not accepted(dfa_u, [], trace=True)
-#     assert not accepted(dfa_u, [1], trace=True)
-#     assert not accepted(dfa_u, [1, 2], trace=True)
-#     assert accepted(dfa_u, ["Saturday","Saturday","Saturday"], trace=True)
-#     assert accepted(dfa_u, ["Saturday", "Sunday", "Saturday", "Sunday"], trace=True)
-#     assert accepted(dfa_u, ["Sunday","Sunday","Sunday","Sunday"], trace=True)
-#     assert not accepted(dfa_u, [], trace=True)
-#     assert not accepted(dfa_u, ["Monday"], trace=True)
-#     assert accepted(dfa_u, ["Saturday"] * 5, trace=True)
+def test_at_least_3_and_all_1():
+    assert not subset(at_least_3, binary_string_all_1)
 
-# def test_at_least_3_and_loooong():
-#     dfa_u = intersect(at_least_3, loooong)
-#     assert not accepted(dfa_u, list("onetwothree"), trace=True)
-#     assert not accepted(dfa_u, [1, 2, 3], trace=True)
-#     assert not accepted(dfa_u, list("sm"), trace=True)
-#     assert not accepted(dfa_u, [], trace=True)
-#     assert not accepted(dfa_u, [1], trace=True)
-#     assert not accepted(dfa_u, [1, 2], trace=True)
-#     assert accepted(dfa_u, list("lo0o0o0o0o0ong"), trace=True)
-#     assert accepted(dfa_u, list("lOOOOOOOOOO000000000o0o0o0o0o0ng"), trace=True)
-#     assert accepted(dfa_u, list("long"), trace=True)
-#     assert not accepted(dfa_u, list("short"), trace=True)
-#     assert not accepted(dfa_u, list("smol"), trace=True)
-#     assert not accepted(dfa_u, list("MINISCULE"), trace=True)
+def test_capitalized_and_loooong():
+    assert not subset(capitalized_first_letter_only, loooong)
 
-# def test_at_least_3_and_all_1():
-#     dfa_u = intersect(at_least_3, binary_string_all_1)
-#     assert accepted(dfa_u, [1,1,1,1,1,1,1,1], trace=True)
-#     assert accepted(dfa_u, [1]*25, trace=True)
-#     assert accepted(dfa_u, [1]*500, trace=True)
-#     assert not accepted(dfa_u, [], trace=True)
-#     assert not accepted(dfa_u, [0, 1], trace=True)
-#     assert not accepted(dfa_u, [2]*2, trace=True)
-#     assert not accepted(dfa_u, list("onetwothree"), trace=True)
-#     assert not accepted(dfa_u, [1, 2, 3], trace=True)
-#     assert not accepted(dfa_u, ["hello", "my", "name", "is", "three"], trace=True)
-#     assert not accepted(dfa_u, [], trace=True)
-#     assert not accepted(dfa_u, [3], trace=True)
-#     assert not accepted(dfa_u, [1, 2], trace=True)
-
-
-# def test_capitalized_and_loooong():
-#     dfa_u = intersect(capitalized_first_letter_only, loooong)
-#     assert accepted(dfa_u, list("Long"), trace=True)
-#     assert not accepted(dfa_u, list("Lamb"), trace=True)
-#     assert accepted(dfa_u, list("Looooong"), trace=True)
-#     assert not accepted(dfa_u, list("AA"), trace=True)
-#     assert not accepted(dfa_u, list("aaaaaaT"), trace=True)
-#     assert not accepted(dfa_u, list("AmericA"), trace=True)
-#     assert not accepted(dfa_u, list("Lo0o0o0o0o0ong"), trace=True)
-#     assert not accepted(dfa_u, list("LOOOOOOOOOO000000000o0o0o0o0o0ng"), trace=True)
-#     assert accepted(dfa_u, list("Long"), trace=True)
-#     assert not accepted(dfa_u, list("ShorT"), trace=True)
-#     assert not accepted(dfa_u, list("smol"), trace=True)
-#     assert not accepted(dfa_u, list("MINISCULE"), trace=True)
-
-# def test_capitalized_and_my_name():
-#     dfa_u = intersect(capitalized_first_letter_only, my_name)
-#     assert not accepted(dfa_u, list("Matthew"), trace=True)
-#     assert not accepted(dfa_u, list("Fabrizio"), trace=True)
-#     assert not accepted(dfa_u, list("A"), trace=True)
-#     assert not accepted(dfa_u, list("AA"), trace=True)
-#     assert not accepted(dfa_u, list("aaaaaaT"), trace=True)
-#     assert not accepted(dfa_u, list("AmericA"), trace=True)
-#     assert not accepted(dfa_u, list("FABRIZIO"), trace=True)
-#     assert not accepted(dfa_u, list("FABRIZIOFABRIZIO"), trace=True)
-#     assert not accepted(dfa_u, list("FABRIZIOFABRIZIOFABRIZIO"), trace=True)
-#     assert not accepted(dfa_u, list("fabrizio"), trace=True)
-#     assert not accepted(dfa_u, list("FABRIZIOFABR"), trace=True)
-#     assert not accepted(dfa_u, list("not my name"), trace=True)
-
-
-
+def test_capitalized_and_my_name():
+    assert not subset(capitalized_first_letter_only, my_name)

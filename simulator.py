@@ -48,6 +48,14 @@ class DFA:
                     self.Q - self.F,
                     self.sigma)
 
+    def __str__(self):
+        print('Q: ', self.Q)
+        print('delta: ', self.delt)
+        print('q', self.q)
+        print('F', self.F)
+        print('sigma', self.sigma)
+
+
 
 def union(A, B):
     return DFA(
@@ -63,7 +71,8 @@ def intersect(A, B):
                set(product(A.Q, B.Q)),
                lambda s,c: (A.delt(s[0], c), B.delt(s[1],c)),
                (A.q, B.q),
-               set(product(A.F, B.F))
+               set(product(A.F, B.F)),
+               A.sigma|B.sigma,
               )
 
 def subset(A, B):
