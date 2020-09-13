@@ -53,6 +53,14 @@ def union(A, B):
                set(product(A.F, B.Q))|(set(product(A.Q, B.F)))
               )
 
+def intersect(A, B):
+    return DFA(
+               set(product(A.Q, B.Q)),
+               lambda s,c: (A.delt(s[0], c), B.delt(s[1],c)),
+               (A.q, B.q),
+               set(product(A.F, B.F))
+              )
+
 def gen_DFA_that_accepts_strings_of_exactly_arg(x):
     return DFA({1,2,3},
                 lambda s,c: { 1: 2 if c==x else 3,

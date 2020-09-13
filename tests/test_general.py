@@ -51,3 +51,12 @@ def test_dfa_accepts_only_string_of_exactly_arg():
     assert not accepted(dfa, 'aa')
     assert not accepted(dfa, 'b')
     assert not accepted(dfa, '')
+
+def test_complement():
+    dfa = gen_DFA_that_accepts_strings_of_exactly_arg('a')
+    dfa_c = dfa.complement()
+    assert accepted(dfa_c, 'aa')
+    assert accepted(dfa_c, '')
+    assert accepted(dfa_c, 'asdasf')
+    assert accepted(dfa_c, 'asdadgdgsd')
+    assert not accepted(dfa_c, 'a')
