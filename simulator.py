@@ -26,10 +26,10 @@ q 0 ∈ Q is the start state, and
 F ⊆ Q is the set of accept states
 '''
 class DFA:
-    Q = []
+    Q = set()
     delt: Callable = None
     q = None
-    F = []
+    F = set()
     
     def __init__(self,Q,delt,q,F):
         self.Q = Q
@@ -39,12 +39,12 @@ class DFA:
 
 
 def gen_DFA_that_accepts_strings_of_exactly_arg(x):
-    return DFA([1,2,3],
+    return DFA({1,2,3},
                 lambda s,c: { 1: 2 if c==x else 3,
                               2: 3,
                               3: 3, }[s],
                 1,
-                [2])
+                {2})
 
 def accepted(dfa, string, trace=False):
     state = dfa.q
@@ -110,4 +110,3 @@ def find_accepted_string(dfa, sigma):
                 break
     print('res', string)
     return string
-
