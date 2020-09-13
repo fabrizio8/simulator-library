@@ -23,14 +23,31 @@ def test_nth_string():
     a = Alphabet(1,2,3)
     assert a.lexi(25) == [2,2,1]
 
+
+# task 5
 def test_dfa_no_string():
-    DFA([1],
-        lambda a: 1,
+    dfa = DFA([1],
+        lambda s,c: 1,
         1,
         [])
+    assert not accepted(dfa, '')
+    assert not accepted(dfa, 'a')
+    assert not accepted(dfa, 'abasdg')
 
+# task 6
 def test_dfa_empty_string():
-    DFA([1,2],
-        lambda a: 2,
+    dfa = DFA([1,2],
+        lambda s,c: 2,
         1,
         [1])
+    assert accepted(dfa, '')
+    assert not accepted(dfa, 'a')
+    assert not accepted(dfa, 'aaaa')
+
+# task 7
+def test_dfa_accepts_only_string_of_exactly_arg():
+    dfa = gen_DFA_that_accepts_strings_of_exactly_arg('a')
+    assert accepted(dfa, 'a')
+    assert not accepted(dfa, 'aa')
+    assert not accepted(dfa, 'b')
+    assert not accepted(dfa, '')
