@@ -1,12 +1,14 @@
 from collections import deque
+from string import ascii_uppercase, digits
+import pdb
 
 def gen_graph(dfa):
     graph = {}
     for state in dfa.Q:
         try:
             graph[state] = list({dfa.delt(state, c) for c in dfa.sigma})
-        except:
-            print(dfa)
+        except Exception as e:
+            print(e)
     return graph
 
 
@@ -22,7 +24,6 @@ def bfs(graph, start, end):
         if vertex == end:
             return path
         elif vertex not in visited:
-            # enumerate all adjacent nodes, construct a new path and push it into the queue
             for current_neighbour in graph.get(vertex, []):
                 new_path = list(path)
                 new_path.append(current_neighbour)
@@ -31,7 +32,7 @@ def bfs(graph, start, end):
             visited.add(vertex)
 
 def find_accepted_string(dfa):
-    # no accepted states, won't find an acceptable string
+
     if not dfa.F:
         return None
     graph = gen_graph(dfa)
@@ -49,3 +50,14 @@ def find_accepted_string(dfa):
                 string.append(c)
                 break
     return string
+
+
+def try_delta(f,*args):
+  try:
+    return f(*args)
+  except:
+    return None
+
+
+def num_to_baseN_str(n, b, syms=digits+ascii_uppercase):
+    return ((n == 0) and syms[0]) or (num_to_baseN_str(n//b, b, syms).lstrip(syms[0]) + syms[n % b])

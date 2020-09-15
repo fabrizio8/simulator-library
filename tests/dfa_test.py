@@ -34,23 +34,21 @@ def test_substring_101():
     assert not accepted(substring_101, [1, 0], trace=True)
     assert not accepted(substring_101, [1, 1, 1, 0, 0, 0, 1], trace=True)
 
-def test_is_it_morning():
-    assert accepted(is_it_morning, list(range(23,0,-1)), trace=True)
-    assert accepted(is_it_morning, [5], trace=True)
-    assert accepted(is_it_morning, list(range(10,0,-1)), trace=True)
-    assert accepted(is_it_morning, [1])
-    assert accepted(is_it_morning, [11])
-    assert accepted(is_it_morning, [0])
-    assert not accepted(is_it_morning, list(range(23)), trace=True)
-    assert not accepted(is_it_morning, [12], trace=True)
-    assert not accepted(is_it_morning, [0, 5, 10, 15], trace=True)
+def test_divisble_by_3():
+    assert accepted(divisible_by_3, '0')
+    assert accepted(divisible_by_3, '3')
+    assert accepted(divisible_by_3, '81')
+    assert not accepted(divisible_by_3, '2')
+    assert not accepted(divisible_by_3, '500')
+    assert not accepted(divisible_by_3, '25')
+
 
 def test_first_and_last_char_is_x():
-    assert accepted(first_and_last_char_is_x, list('x'), trace=True)
-    assert accepted(first_and_last_char_is_x, list('xx'), trace=True)
-    assert accepted(first_and_last_char_is_x, list('xasdafkshfkajdx'), trace=True)
-    assert not accepted(first_and_last_char_is_x, list('xa'), trace=True)
-    assert not accepted(first_and_last_char_is_x, list('xxxxxxxxxxa'), trace=True)
+    assert accepted(first_and_last_char_is_x, 'x', trace=True)
+    assert accepted(first_and_last_char_is_x, 'xx', trace=True)
+    assert accepted(first_and_last_char_is_x, 'xasdafkshfkajdx', trace=True)
+    assert not accepted(first_and_last_char_is_x, 'xa', trace=True)
+    assert not accepted(first_and_last_char_is_x, 'xxxxxxxxxxa', trace=True)
     assert not accepted(first_and_last_char_is_x, [], trace=True)
 
 def test_string_all_1():
@@ -102,10 +100,5 @@ def test_loooong():
     assert not accepted(loooong, list("MINISCULE"), trace=True)
 
 def test_dfa_graph_gen():
-    dfas = [
-            even_chars,my_name,traffic_light,substring_101,is_it_morning,
-            first_and_last_char_is_x,binary_string_all_1,capitalized_first_letter_only,
-            strictly_alternating,at_least_3,is_weekend,loooong 
-            ]
     for dfa in dfas:
         assert accepted(dfa, find_accepted_string(dfa), trace=True)

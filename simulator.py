@@ -3,6 +3,7 @@ from typing import Callable, Dict
 from collections import deque
 from itertools import combinations, product
 from util import *
+from string import digits
 
 class Alphabet:
     alphabet = []
@@ -49,18 +50,13 @@ class DFA:
                     self.sigma)
 
     def __str__(self):
-        print('Q: ', self.Q)
-        print('delta: ', self.delt)
-        print('q', self.q)
-        print('F', self.F)
-        print('sigma', self.sigma)
-
+        return 'Q: {}\ndelta: {}\nq: {}\nF: {}\nsigma{}'.format(self.Q,self.delt,self.q,self.F,self.sigma)
 
 
 def union(A, B):
     return DFA(
                set(product(A.Q, B.Q)),
-               lambda s,c: (A.delt(s[0], c), B.delt(s[1],c)),
+               lambda s,c: (try_delta(A.delt,s[0], c), try_delta(B.delt,s[1],c)),
                (A.q, B.q),
                set(product(A.F, B.Q))|(set(product(A.Q, B.F))),
                A.sigma|B.sigma,
@@ -69,14 +65,14 @@ def union(A, B):
 def intersect(A, B):
     return DFA(
                set(product(A.Q, B.Q)),
-               lambda s,c: (A.delt(s[0], c), B.delt(s[1],c)),
+               lambda s,c: (try_delta(A.delt,s[0], c), try_delta(B.delt,s[1],c)),
                (A.q, B.q),
                set(product(A.F, B.F)),
                A.sigma|B.sigma,
               )
 
 def subset(A, B):
-    return bool(find_accepted_string(intersect(A, B.complement()))) == False
+    return (find_accepted_string(intersect(A, B.complement())) is not None) == False
 
 def equal(A,B):
     return subset(A,B) and subset(B,A)
@@ -89,19 +85,38 @@ def gen_DFA_that_accepts_strings_of_exactly_arg(x):
                 1,
                 {2})
 
+def gen_DFA_base_b_divisible_by_n(b,n):
+    accept_s = start_s = '0'
+    d_table = { str(state):
+            { str(symbol): None for symbol in range(b) } for state in range(n)
+          }
+
+    d_table[None] = {None:None}
+    d_table[start_s]['0'] = accept_s
+    lookup = { '0': accept_s }.setdefault
+    for num in range(n*b):
+        end_s = str(num%n)
+        num_s = num_to_baseN_str(num,b)
+        before_end_state = lookup(num_s[:-1],start_s)
+        d_table[before_end_state][num_s[-1]] = end_s
+        lookup(num_s, end_s)
+
+    return DFA(set(d_table.keys()),
+            lambda s,c: d_table[s][c],
+            '0',
+            {'0'},
+            set(digits))
+
+
 def accepted(dfa, string, trace=False):
     state = dfa.q
-    if trace:
-        print(state, end='')
+    output = ""
+    output += "{}".format(state)
     for c in string:
-        if trace:
-            print(',',end="")
+        output += ","
         state = dfa.delt(state,c)
-        if trace:
-            print(state, end='')
+        output += "{}".format(state)
     if trace:
-        print()
-    if state in dfa.F:
-        return True
-    else:
-        return False
+        print(output)
+
+    return True if state in dfa.F else False

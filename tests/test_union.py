@@ -18,20 +18,20 @@ def test_union_even_and_my_name():
     assert not accepted(dfa_u, list("Dj Hi-Tek"), trace=True)
     assert not accepted(dfa_u, list("Fabri"), trace=True)
 
-def test_even_chars_and_is_it_morning():
-    dfa_u = union(even_chars, is_it_morning)
-    assert accepted(dfa_u, [1,2,3,4,5,6], trace=True)
+def test_even_chars_and_divisible_by_3():
+    dfa_u = union(even_chars, divisible_by_3)
+    assert accepted(dfa_u, ['1','2','3','4','5','6'], trace=True)
     assert accepted(dfa_u, [], trace=True)
-    assert accepted(dfa_u, [1,2], trace=True)
-    assert not accepted(dfa_u, [21], trace=True)
-    assert not accepted(dfa_u, [11,22,23], trace=True)
-    assert not accepted(dfa_u, [12,22,23,14,15], trace=True)
-    assert accepted(dfa_u, list(range(23,0,-1)), trace=True)
-    assert accepted(dfa_u, [5], trace=True)
-    assert accepted(dfa_u, list(range(10,0,-1)), trace=True)
-    assert not accepted(dfa_u, list(range(23)), trace=True)
-    assert not accepted(dfa_u, [12], trace=True)
-    assert accepted(dfa_u, [0, 5, 10, 15], trace=True)
+    assert accepted(dfa_u, ['1','2'], trace=True)
+    assert accepted(dfa_u, str(654321), trace=True)
+    assert accepted(dfa_u, [], trace=True)
+    assert accepted(dfa_u, str(543210), trace=True)
+    assert not accepted(dfa_u, '2', trace=True)
+    assert not accepted(dfa_u, '7', trace=True)
+    assert not accepted(dfa_u, ['1','2','3','4','7'], trace=True)
+    assert not accepted(dfa_u, '5', trace=True)
+    assert not accepted(dfa_u, list(range(7)), trace=True)
+    assert not accepted(dfa_u, '1', trace=True)
 
 def test_traffic_light_and_substring101():
     dfa_u = union(traffic_light, substring_101)
@@ -80,20 +80,20 @@ def test_substring_101_and_strictly_alternating():
     assert accepted(dfa_u, [1, 0, 1], trace=True)
 
 
-def test_morning_and_first_last_x():
-    dfa_u = union(is_it_morning, first_and_last_char_is_x)
-    assert accepted(dfa_u, list(range(23,0,-1)), trace=True)
-    assert accepted(dfa_u, [5], trace=True)
-    assert accepted(dfa_u, list(range(10,0,-1)), trace=True)
-    assert not accepted(dfa_u, list(range(23)), trace=True)
-    assert not accepted(dfa_u, [12], trace=True)
-    assert not accepted(dfa_u, [0, 5, 10, 15], trace=True)
-    assert accepted(dfa_u, list('x'), trace=True)
+def test_divisible_by_3_and_first_last_x():
+    dfa_u = union(divisible_by_3, first_and_last_char_is_x)
+    assert accepted(dfa_u, '33', trace=True)
+    assert accepted(dfa_u, ['1','5'], trace=True)
+    assert accepted(dfa_u, ['1','2'], trace=True)
+    assert accepted(dfa_u, 'x', trace=True)
     assert accepted(dfa_u, list('xx'), trace=True)
-    assert accepted(dfa_u, list('xasdafkshfkajdx'), trace=True)
-    assert not accepted(dfa_u, list('xa'), trace=True)
-    assert not accepted(dfa_u, list('xxxxxxxxxxa'), trace=True)
-    assert not accepted(dfa_u, [], trace=True)
+    assert accepted(dfa_u, [], trace=True)
+    assert not accepted(dfa_u, ['5', '1', '0', '1'], trace=True)
+    assert not accepted(dfa_u, list(str(23)), trace=True)
+    assert not accepted(dfa_u, list(str(10)), trace=True)
+    assert not accepted(dfa_u, str(14), trace=True)
+    assert not accepted(dfa_u, str(26), trace=True)
+    assert not accepted(dfa_u, str(103), trace=True)
 
 def test_string_all_1_and_strictly_alternating():
     dfa_u = union(binary_string_all_1, strictly_alternating) 
