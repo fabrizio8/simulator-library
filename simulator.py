@@ -20,6 +20,24 @@ class Alphabet:
             return []
         return self.lexi((n-1)//len(self.alphabet)) + [self.alphabet[(n-1)%len(self.alphabet)]]
 
+
+class NFA:
+    Q = set()
+    delt: Callable = None
+    q = None
+    F = set()
+    sigma = set()
+    
+    def __init__(self,Q,delt,q,F,sigma=None):
+        self.Q = Q
+        self.delt = delt
+        self.q = q
+        self.F = F
+        self.sigma = sigma
+
+    def __str__(self):
+        return 'Q: {}\ndelta: {}\nq: {}\nF: {}\nsigma{}'.format(self.Q,self.delt,self.q,self.F,self.sigma)
+
 '''
 Q is a finite set called the states,
 Σ is a finite set called the alphabet,
@@ -48,6 +66,14 @@ class DFA:
                     self.q,
                     self.Q - self.F,
                     self.sigma)
+
+    def to_NFA(self):
+        return NFA(self.Q,
+                   lambda s,c: self.delt(s,c) if c is not None else None,
+                   self.q,
+                   self.F,
+                   self.sigma)
+
 
     def __str__(self):
         return 'Q: {}\ndelta: {}\nq: {}\nF: {}\nsigma{}'.format(self.Q,self.delt,self.q,self.F,self.sigma)
@@ -120,3 +146,4 @@ def accepted(dfa, string, trace=False):
         print(output)
 
     return True if state in dfa.F else False
+

@@ -16,7 +16,7 @@ def test_union():
     assert equal(union(f(10,4),f(10,2)),union(f(10,2),f(10,4)))
 
 def test_intersect():
-    for a,b in enumerate(range(1,10),2):
+    for a,b in enumerate(range(1,7),2):
         equal(intersect(f(10, a), f(10,b)), f(10,a*b))
 
 def test_complement():

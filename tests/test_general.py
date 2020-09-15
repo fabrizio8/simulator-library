@@ -60,3 +60,8 @@ def test_complement():
     assert accepted(dfa_c, 'asdasf')
     assert accepted(dfa_c, 'asdadgdgsd')
     assert not accepted(dfa_c, 'a')
+
+def test_dfa_to_nfa():
+    dfa = gen_DFA_base_b_divisible_by_n(10,5)
+    nfa = dfa.to_NFA()
+    assert accepted(nfa, '25')
