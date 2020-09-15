@@ -61,6 +61,9 @@ substring_101 = DFA({None, 1,2,3,4},
 # accepts string of base 10 numbers divisible by 3
 divisible_by_3 = gen_DFA_base_b_divisible_by_n(10,3)
 
+divisible_by_n = dict.fromkeys(range(1,10))
+for i in range(1,10):
+    divisible_by_n[i] = gen_DFA_base_b_divisible_by_n(10,i)
 # accepts non-empty string with first same and last char being 'x'
 first_and_last_char_is_x = DFA({None, 1,2,3,4},
                             lambda s,c: {

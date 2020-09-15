@@ -1,6 +1,5 @@
 from collections import deque
 from string import ascii_uppercase, digits
-import pdb
 
 def gen_graph(dfa):
     graph = {}

@@ -187,4 +187,17 @@ def test_capitalized_and_my_name():
     assert not accepted(dfa_u, list("not my name"), trace=True)
 
 
-
+def test_math():
+    dfa_u = divisible_by_n[1]
+    for i in range(2,5):
+        dfa_u = union(divisible_by_n[i], dfa_u)
+    for i in range(1,500,3):
+        assert accepted(dfa_u, str(i))
+    dfa_u = divisible_by_n[2]
+    dfa_u = union(divisible_by_n[3], dfa_u)
+    should_fail = ['1', '7', '11']
+    should_pass = ['8', '9', '666']
+    for i in should_fail:
+        assert not accepted(dfa_u, i)
+    for i in should_pass:
+        assert accepted(dfa_u, i)
