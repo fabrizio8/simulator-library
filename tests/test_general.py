@@ -30,9 +30,9 @@ def test_dfa_no_string():
         lambda s,c: 1,
         1,
         [])
-    assert not accepted(dfa, '')
-    assert not accepted(dfa, 'a')
-    assert not accepted(dfa, 'abasdg')
+    assert not dfa.accepted('')
+    assert not dfa.accepted('a')
+    assert not dfa.accepted('abasdg')
 
 # task 6
 def test_dfa_empty_string():
@@ -40,28 +40,28 @@ def test_dfa_empty_string():
         lambda s,c: 2,
         1,
         [1])
-    assert accepted(dfa, '')
-    assert not accepted(dfa, 'a')
-    assert not accepted(dfa, 'aaaa')
+    assert dfa.accepted('')
+    assert not dfa.accepted('a')
+    assert not dfa.accepted('aaaa')
 
 # task 7
 def test_dfa_accepts_only_string_of_exactly_arg():
     dfa = gen_DFA_that_accepts_strings_of_exactly_arg('a')
-    assert accepted(dfa, 'a')
-    assert not accepted(dfa, 'aa')
-    assert not accepted(dfa, 'b')
-    assert not accepted(dfa, '')
+    assert dfa.accepted('a')
+    assert not dfa.accepted('aa')
+    assert not dfa.accepted('b')
+    assert not dfa.accepted('')
 
 def test_complement():
     dfa = gen_DFA_that_accepts_strings_of_exactly_arg('a')
     dfa_c = dfa.complement()
-    assert accepted(dfa_c, 'aa')
-    assert accepted(dfa_c, '')
-    assert accepted(dfa_c, 'asdasf')
-    assert accepted(dfa_c, 'asdadgdgsd')
-    assert not accepted(dfa_c, 'a')
+    assert dfa_c.accepted('aa')
+    assert dfa_c.accepted('')
+    assert dfa_c.accepted('asdasf')
+    assert dfa_c.accepted('asdadgdgsd')
+    assert not dfa_c.accepted('a')
 
 def test_dfa_to_nfa():
     dfa = gen_DFA_base_b_divisible_by_n(10,5)
     nfa = dfa.to_NFA()
-    assert accepted(nfa, '25')
+    assert nfa.accepted('25')

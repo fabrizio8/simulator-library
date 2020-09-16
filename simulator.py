@@ -34,6 +34,19 @@ class NFA:
         self.q = q
         self.F = F
         self.sigma = sigma
+    
+    def accepted(self, string, trace=False):
+        state = self.q
+        output = ""
+        output += "{}".format(state)
+        for c in string:
+            output += ","
+            state = self.delt(state,c)
+            output += "{}".format(state)
+        if trace:
+            print(output)
+
+        return True if state in self.F else False
 
     def __str__(self):
         return 'Q: {}\ndelta: {}\nq: {}\nF: {}\nsigma{}'.format(self.Q,self.delt,self.q,self.F,self.sigma)
@@ -58,6 +71,19 @@ class DFA:
         self.q = q
         self.F = F
         self.sigma = sigma
+
+    def accepted(self, string, trace=False):
+        state = self.q
+        output = ""
+        output += "{}".format(state)
+        for c in string:
+            output += ","
+            state = self.delt(state,c)
+            output += "{}".format(state)
+        if trace:
+            print(output)
+
+        return True if state in self.F else False
 
     
     def complement(self):
@@ -132,18 +158,4 @@ def gen_DFA_base_b_divisible_by_n(b,n):
             '0',
             {'0'},
             set(digits))
-
-
-def accepted(dfa, string, trace=False):
-    state = dfa.q
-    output = ""
-    output += "{}".format(state)
-    for c in string:
-        output += ","
-        state = dfa.delt(state,c)
-        output += "{}".format(state)
-    if trace:
-        print(output)
-
-    return True if state in dfa.F else False
 
