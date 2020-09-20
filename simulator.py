@@ -1,5 +1,5 @@
 from random import randint
-from typing import Callable, Dict
+from typing import Any, Callable, Dict, List, Tuple
 from collections import deque
 from itertools import combinations, product
 from util import *
@@ -34,6 +34,32 @@ class NFA:
         self.q = q
         self.F = F
         self.sigma = sigma
+
+    def epsilon_transition(self, state):
+        stack = [state]
+        encountered = set()
+
+        while stack:
+            state = stack.pop()
+            if state not in encountered:
+                encountered.add(state)
+                if None in self.delt[state]:
+                    stack.extend(self.delt[state][None])
+
+        return encountered
+
+    
+    def oracle(self, trace: List[Tuple[Any,Any]], assertion):
+        current_state = self.q
+        print(self.delt[current_state].get(None))
+        for step in trace:
+            c, state = step
+            if state not in self.delt[current_state].get(c):
+                return True if assertion is False else False
+            current_state = state
+        return True if assertion is True else False
+
+        
     
     def accepted(self, string, trace=False):
         state = self.q
