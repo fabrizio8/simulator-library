@@ -51,7 +51,6 @@ class NFA:
     
     def oracle(self, trace: List[Tuple[Any,Any]], assertion):
         current_state = self.q
-        print(self.delt[current_state].get(None))
         for step in trace:
             c, state = step
             if state not in self.delt[current_state].get(c):
