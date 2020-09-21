@@ -37,16 +37,16 @@ class NFA:
 
     def epsilon_transition(self, state):
         stack = [state]
-        encountered = set()
+        transitions = set()
 
         while stack:
             state = stack.pop()
-            if state not in encountered:
-                encountered.add(state)
+            if state not in transitions:
+                transitions.add(state)
                 if None in self.delt[state]:
                     stack.extend(self.delt[state][None])
 
-        return encountered
+        return transitions
 
     
     def oracle(self, trace: List[Tuple[Any,Any]], assertion):
@@ -59,7 +59,6 @@ class NFA:
         return True if assertion is True else False
 
         
-    
     def accepted(self, string, trace=False):
         state = self.q
         output = ""

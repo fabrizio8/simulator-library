@@ -92,12 +92,12 @@ capitalized_first_letter_only = DFA({None,1,2,3,4},
                         lambda s,c: {
                                     None: None,
                                     1: 2 if c.isupper() else 4,
-                                    2: 3 if c.islower() else 4,
-                                    3: 3 if c.islower() else 4,
+                                    2: 3 if not c.isupper() else 4,
+                                    3: 3 if not c.isupper() else 4,
                                     4: 4}[s],
                         1,
                         {2,3},
-                        set(alphabet))
+                        set(alphabet)|{' ', '.'})
 
 
 # accept only strings that are alternating 10
