@@ -26,20 +26,20 @@ def test_nth_string():
 
 # task 5
 def test_dfa_no_string():
-    dfa = DFA([1],
+    dfa = DFA({1},
         lambda s,c: 1,
         1,
-        [])
+        {})
     assert not dfa.accepted('')
     assert not dfa.accepted('a')
     assert not dfa.accepted('abasdg')
 
 # task 6
 def test_dfa_empty_string():
-    dfa = DFA([1,2],
+    dfa = DFA({1,2},
         lambda s,c: 2,
         1,
-        [1])
+        {1})
     assert dfa.accepted('')
     assert not dfa.accepted('a')
     assert not dfa.accepted('aaaa')
