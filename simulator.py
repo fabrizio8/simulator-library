@@ -53,24 +53,31 @@ class NFA:
         current_state = self.q
         for step in trace:
             c, state = step
-            if state not in self.delt[current_state].get(c):
+            try:
+                if state not in self.delt[current_state].get(c):
+                    return True if assertion is False else False
+            except:
                 return True if assertion is False else False
             current_state = state
         return True if assertion is True else False
 
         
-    def accepted(self, string, trace=False):
+    def accepted(self, string, trace=False, ret_trace=False):
         state = self.q
         output = ""
+        trace_out = [state]
         output += "{}".format(state)
         for c in string:
             output += ","
             state = self.delt(state,c)
             output += "{}".format(state)
+            trace_out.append(state)
         if trace:
             print(output)
-
-        return True if state in self.F else False
+        if ret_trace:
+            return trace_out
+        else:
+            return True if state in self.F else False
 
     def __str__(self):
         return 'Q: {}\ndelta: {}\nq: {}\nF: {}\nsigma{}'.format(self.Q,self.delt,self.q,self.F,self.sigma)
@@ -96,18 +103,22 @@ class DFA:
         self.F = F
         self.sigma = sigma
 
-    def accepted(self, string, trace=False):
+    def accepted(self, string, trace=False, ret_trace=False):
         state = self.q
         output = ""
+        trace_out = [state]
         output += "{}".format(state)
         for c in string:
             output += ","
             state = self.delt(state,c)
             output += "{}".format(state)
+            trace_out.append(state)
         if trace:
             print(output)
-
-        return True if state in self.F else False
+        if ret_trace:
+            return trace_out
+        else:
+            return True if state in self.F else False
 
     
     def complement(self):
@@ -163,16 +174,14 @@ def gen_DFA_that_accepts_strings_of_exactly_arg(x):
 
 def gen_DFA_base_b_divisible_by_n(b,n):
     accept_s = start_s = '0'
-    d_table = { str(state):
-            { str(symbol): None for symbol in range(b) } for state in range(n)
-          }
+    d_table = { str(state): { str(symbol): None for symbol in range(b) } for state in range(n) }
 
     d_table[None] = {None:None}
     d_table[start_s]['0'] = accept_s
     lookup = { '0': accept_s }.setdefault
     for num in range(n*b):
-        end_s = str(num%n)
         num_s = num_to_baseN_str(num,b)
+        end_s = str(num%n)
         before_end_state = lookup(num_s[:-1],start_s)
         d_table[before_end_state][num_s[-1]] = end_s
         lookup(num_s, end_s)

@@ -16,6 +16,9 @@ def test_even_chars():
     assert not even_chars.accepted([1,2,3,4,5,6,7], trace=True)
     assert not even_chars.accepted([1,2,3,4,5,6,7,8,9], trace=True)
 
+    assert [1,2]*4+[1] == even_chars.accepted([1,2,3,4,5,6,7,8],ret_trace=True)
+    assert [1,2] == even_chars.accepted([1],ret_trace=True)
+
 def test_my_name():
     assert my_name.accepted("FABRIZIO", trace=True)
     assert my_name.accepted("FABRIZIOFABRIZIO", trace=True)
@@ -29,6 +32,9 @@ def test_my_name():
     assert not my_name.accepted("not my name", trace=True)
     assert not my_name.accepted("any string that is not my name in all capital letters", trace=True)
     assert not my_name.accepted("Fabrizio", trace=True)
+
+    assert [1,2,3,4,5,6,7,8,9] == my_name.accepted("FABRIZIO", ret_trace=True)
+    assert [1,10,10,10,10,10,10,10,10] == my_name.accepted("fabrizio", ret_trace=True)
 
 def test_traffic_light():
     assert traffic_light.accepted([1]*25 , trace=True)
@@ -44,6 +50,9 @@ def test_traffic_light():
     assert not traffic_light.accepted([2]*6 , trace=True)
     assert not traffic_light.accepted([1,1,1,2,2,2,2,2] , trace=True)
 
+    assert ['R', 'Y'] + ['G', 'Y']*12 == traffic_light.accepted([1]*25 , ret_trace=True)
+    assert ['R']*5 + ['Y', 'G', 'Y', 'R'] == traffic_light.accepted([0,0,0,0,1,1,1,2] , ret_trace=True)
+
 def test_substring_101():
     assert substring_101.accepted([1, 0, 1], trace=True)
     assert substring_101.accepted([1, 0, 1] + [1, 0]*10, trace=True)
@@ -58,6 +67,9 @@ def test_substring_101():
     assert not substring_101.accepted([1,1,1,0,0,0,1], trace=True)
     assert not substring_101.accepted([1,1,1,0,0,0,1], trace=True)
 
+    assert [1, 2, 3, 4] == substring_101.accepted([1, 0, 1], ret_trace=True)
+    assert [1, 2, 3] == substring_101.accepted([1, 0], ret_trace=True)
+
 def test_divisble_by_3():
     assert divisible_by_3.accepted('0')
     assert divisible_by_3.accepted('3')
@@ -71,6 +83,10 @@ def test_divisble_by_3():
     assert not divisible_by_3.accepted('16')
     assert not divisible_by_3.accepted('100')
     assert not divisible_by_3.accepted('49')
+
+    assert ['0','0'] == divisible_by_3.accepted('0', ret_trace=True)
+    assert ['0','2'] == divisible_by_3.accepted('2', ret_trace=True)
+    assert ['0','2','2','2'] == divisible_by_3.accepted('500', ret_trace=True)
 
 
 def test_first_and_last_char_is_x():
@@ -87,6 +103,9 @@ def test_first_and_last_char_is_x():
     assert not first_and_last_char_is_x.accepted('and it can certainly not be found here', trace=True)
     assert not first_and_last_char_is_x.accepted('It may be the last character here, but it is not the first.x', trace=True)
 
+    assert [1,2] + [3]*len('asdafkshfkajd')+[2] == first_and_last_char_is_x.accepted('xasdafkshfkajdx', ret_trace=True)
+    assert [1,2,3] == first_and_last_char_is_x.accepted('xa', ret_trace=True)
+
 def test_string_all_1():
     assert binary_string_all_1.accepted([1,1,1,1,1,1,1,1], trace=True)
     assert binary_string_all_1.accepted([1]*25, trace=True)
@@ -100,6 +119,9 @@ def test_string_all_1():
     assert not binary_string_all_1.accepted([1,2,3,4,5], trace=True)
     assert not binary_string_all_1.accepted([1,2,3,4,5,1,1,1,1,1], trace=True)
     assert not binary_string_all_1.accepted([52,105,1235,124234,1,1,1,1], trace=True)
+
+    assert [1,2,2,2] == binary_string_all_1.accepted([1]*3, ret_trace=True)
+    assert [1,3] == binary_string_all_1.accepted([0], ret_trace=True)
 
 def test_capitalized_first_letter_only():
     assert capitalized_first_letter_only.accepted("Matthew", trace=True)
@@ -115,6 +137,11 @@ def test_capitalized_first_letter_only():
     assert not capitalized_first_letter_only.accepted("Why Do Some People Actually Type Like This", trace=True)
     assert not capitalized_first_letter_only.accepted("What's The Point, I Don't Get It.", trace=True)
 
+    assert [1,2,3,3,3,3,3,3,3] == capitalized_first_letter_only.accepted("Keyboard", ret_trace=True)
+    assert [1,2,4] == capitalized_first_letter_only.accepted("AA", ret_trace=True)
+
+    
+
 def test_strictly_alternating():
     assert strictly_alternating.accepted([1,0], trace=True)
     assert strictly_alternating.accepted([1,0] * 5, trace=True)
@@ -128,6 +155,9 @@ def test_strictly_alternating():
     assert not strictly_alternating.accepted([1, 1], trace=True)
     assert not strictly_alternating.accepted([1, 0, 1], trace=True)
     assert not strictly_alternating.accepted([1, 0, 0], trace=True)
+
+    assert [1,2,3,2,3,2,3] == strictly_alternating.accepted([1,0,1,0,1,0], ret_trace=True)
+    assert [1,2,4] == strictly_alternating.accepted([1,1], ret_trace=True)
 
 def test_at_least_3():
     assert at_least_3.accepted("onetwothree", trace=True)
@@ -143,6 +173,9 @@ def test_at_least_3():
     assert not at_least_3.accepted('aa', trace=True)
     assert not at_least_3.accepted('a1', trace=True)
 
+    assert [1,2,3,4] == at_least_3.accepted("123", ret_trace=True)
+    assert [1,2,3] == at_least_3.accepted("12", ret_trace=True)
+
 def test_is_weekend():
     assert is_weekend.accepted(["Saturday"], trace=True)
     assert is_weekend.accepted(["Saturday", "Sunday"], trace=True)
@@ -156,6 +189,9 @@ def test_is_weekend():
     assert not is_weekend.accepted(["Monday"]*3, trace=True)
     assert not is_weekend.accepted(["Monday", "Friday", "Saturday", "Monday"], trace=True)
     assert not is_weekend.accepted(["Monday", "Tuesday", "Wednesday", "Sunday", "Monday"] * 3, trace=True)
+    a,b = ('Weekend', 'Weekday')
+    assert [1,a,a] == is_weekend.accepted(["Saturday", "Sunday"], ret_trace=True)
+    assert [1,b,b,b] == is_weekend.accepted(["Monday", "Tuesday", "Wednesday"], ret_trace=True)
 
 def test_loooong():
     assert loooong.accepted("long", trace=True)
@@ -170,6 +206,9 @@ def test_loooong():
     assert not loooong.accepted("Not long by any stretch of the imagination", trace=True)
     assert not loooong.accepted("You call this long?", trace=True)
     assert not loooong.accepted("I know long when I see it, and this ain't it", trace=True)
+
+    assert [1,2,3,4,5] == loooong.accepted("long", ret_trace=True)
+    assert [1,2,3,3,6,6] == loooong.accepted("lOONg", ret_trace=True)
 
 def test_dfa_graph_gen():
     for dfa in dfas:
