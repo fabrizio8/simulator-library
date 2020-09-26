@@ -20,6 +20,11 @@ class Alphabet:
             return []
         return self.lexi((n-1)//len(self.alphabet)) + [self.alphabet[(n-1)%len(self.alphabet)]]
 
+# General structure of trace tree
+Yes = TypeVar('Y')
+No = TypeVar('N')
+tt = Dict[Any, Tuple[Any,Any]]
+TT = Union(Yes,No,tt)
 
 class NFA:
     Q = set()
