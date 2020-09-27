@@ -82,28 +82,35 @@ class NFA:
         return next_states
 
     
-    def fork(self, string, state=None):
-#        print("call", string, state,end=': ')
-        if state is None:
+    def fork(self, string, out="", state='start', c=None):
+        p = False
+        if state == 'start':
+            p = True
             state = self.q
+        else:
+            out += "({}/{} [".format('e' if c is None else c,str(state))
         states = self.epsilon_transition(state)
-        print(states)
         for s in [s for s in states if s != state]:
-#            print("fork epsilon", state)
-            self.fork(string, s)
+            if p:
+                out += self.fork(string, out,s) + "])"
+            else:
+                return self.fork(string, out,s) + "])"
         if not string:
             if state in self.F:
-                print("Yes")
-                return
+                return out+"Yes"
             else:
-                print("No")
-                return
+                return out+"No"
         
         n_s = self.next_states({state}, string[0])
-        for c,i in enumerate(n_s):
-#            print("fork {}".format(state), n_s, c);print()
-            self.fork(string[1:],i)
-#        print('exit',state, string)
+        for i in n_s:
+            if p:
+                out += self.fork(string[1:],out,i,string[0]) + "])"
+            else:
+                return self.fork(string[1:],out,i,string[0]) + "])"
+
+        if p:
+            out = "({} [".format(str(state)) + out + "])" 
+            print(out)
 
 
     def accepted(self, string, trace=False, ret_trace=False):
