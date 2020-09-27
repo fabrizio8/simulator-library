@@ -1,9 +1,12 @@
 from random import randint
-from typing import Any, Callable, Dict, List, Tuple
+from typing import Any, Callable, Dict, List, Tuple, TypeVar, Union
 from collections import deque
 from itertools import combinations, product
 from util import *
 from string import digits
+from anytree.exporter import DotExporter
+from anytree import Node, RenderTree
+
 
 class Alphabet:
     alphabet = []
@@ -24,7 +27,8 @@ class Alphabet:
 Yes = TypeVar('Y')
 No = TypeVar('N')
 tt = Dict[Any, Tuple[Any,Any]]
-TT = Union(Yes,No,tt)
+TT = Union[Yes,No,tt]
+
 
 class NFA:
     Q = set()
@@ -40,6 +44,20 @@ class NFA:
         self.F = F
         self.sigma = sigma
 
+
+    def oracle(self, trace: List[Tuple[Any,Any]], assertion):
+        current_state = self.q
+        for step in trace:
+            c, state = step
+            try:
+                if state not in self.delt[current_state].get(c):
+                    return True if assertion is False else False
+            except:
+                return True if assertion is False else False
+            current_state = state
+        return True if assertion is True else False
+
+
     def epsilon_transition(self, state):
         stack = [state]
         transitions = set()
@@ -53,20 +71,41 @@ class NFA:
 
         return transitions
 
-    
-    def oracle(self, trace: List[Tuple[Any,Any]], assertion):
-        current_state = self.q
-        for step in trace:
-            c, state = step
-            try:
-                if state not in self.delt[current_state].get(c):
-                    return True if assertion is False else False
-            except:
-                return True if assertion is False else False
-            current_state = state
-        return True if assertion is True else False
+    def next_states(self, current_states, c):
+        next_states = set()
 
+        for s in current_states:
+            if (end_states := self.delt[s].get(c)):
+                for end_state in end_states:
+                    next_states.update(self.epsilon_transition(end_state))
+
+        return next_states
+
+    
+    def fork(self, string, state=None):
+#        print("call", string, state,end=': ')
+        if state is None:
+            state = self.q
+        states = self.epsilon_transition(state)
+        print(states)
+        for s in [s for s in states if s != state]:
+#            print("fork epsilon", state)
+            self.fork(string, s)
+        if not string:
+            if state in self.F:
+                print("Yes")
+                return
+            else:
+                print("No")
+                return
         
+        n_s = self.next_states({state}, string[0])
+        for c,i in enumerate(n_s):
+#            print("fork {}".format(state), n_s, c);print()
+            self.fork(string[1:],i)
+#        print('exit',state, string)
+
+
     def accepted(self, string, trace=False, ret_trace=False):
         state = self.q
         output = ""

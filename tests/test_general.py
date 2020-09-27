@@ -2,6 +2,7 @@
 
 import pytest
 from simulator import *
+from example_nfa import *
 
 def test_alphabet_init():
     a = Alphabet('A', 'B', 1,2,3)
@@ -65,3 +66,10 @@ def test_dfa_to_nfa():
     dfa = gen_DFA_base_b_divisible_by_n(10,5)
     nfa = dfa.to_NFA()
     assert nfa.accepted('25')
+
+def test_fork():
+    even_0_or_1.fork('0001')
+    print()
+    print()
+    ends_in_1.fork('0001')
+    assert False
