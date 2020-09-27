@@ -69,6 +69,8 @@ def test_dfa_to_nfa():
 
 def test_fork():
     even_0_or_1.fork('0001')
+    assert not even_0_or_1._accepted('0001')
+    assert even_0_or_1._accepted('00011')
     print()
     ends_in_1.fork('0001')
     assert False

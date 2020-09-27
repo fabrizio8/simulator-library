@@ -112,6 +112,13 @@ class NFA:
             out = "({} [".format(str(state)) + out + "])" 
             print(out)
 
+    def _accepted(self, string):
+        states = self.epsilon_transition(self.q)
+
+        for c in string:
+            states = self.next_states(states, c)
+
+        return True if any(s in self.F for s in states) else False
 
     def accepted(self, string, trace=False, ret_trace=False):
         state = self.q
