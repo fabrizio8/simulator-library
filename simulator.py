@@ -6,6 +6,7 @@ from util import *
 from string import digits
 from anytree.exporter import DotExporter
 from anytree import Node, RenderTree
+from pprint import pprint
 
 
 class Alphabet:
@@ -135,6 +136,10 @@ class NFA:
         return 'Q: {}\ndelta: {}\nq: {}\nF: {}\nsigma{}'.format(self.Q,self.delt,self.q,self.F,self.sigma)
 
 def union_nfa(A, B):
+    pprint(A.delt)
+    print()
+    pprint(B.delt)
+    print()
     key_idx = max(A.delt.keys())+1
     delt = {1: {None: {2,key_idx+1}}}
     offset = 1
@@ -143,6 +148,34 @@ def union_nfa(A, B):
     for k,v in B.delt.items():
         delt[key_idx+k] = {k:{x+key_idx for x in v} for (k,v) in v.items()}
     B.F = {x+key_idx for x in B.F}
+    pprint(delt)
+
+    return NFA(set(delt.keys()),
+        delt,
+        1,
+        A.F|B.F
+        )
+
+def concat_nfa(A, B):
+    pprint(A.delt)
+    print()
+    pprint(B.delt)
+    print()
+    key_idx = max(A.delt.keys())+1
+    delt = {}
+    for k,v in A.delt.items():
+        delt[k] = {k:{x for x in v} for (k,v) in v.items()}
+    for s in A.F:
+        try:
+            delt[s][None] |= {key_idx}
+        except KeyError:
+            delt[s][None] = {key_idx}
+
+    key_idx -= 1
+    for k,v in B.delt.items():
+        delt[key_idx+k] = {k:{x+key_idx for x in v} for (k,v) in v.items()}
+    B.F = {x+key_idx for x in B.F}
+    pprint(delt)
 
     return NFA(set(delt.keys()),
         delt,
