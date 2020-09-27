@@ -73,4 +73,4 @@ def test_fork():
     assert even_0_or_1._accepted('00011')
     print()
     ends_in_1.fork('0001')
-    assert False
+

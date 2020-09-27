@@ -23,12 +23,6 @@ class Alphabet:
             return []
         return self.lexi((n-1)//len(self.alphabet)) + [self.alphabet[(n-1)%len(self.alphabet)]]
 
-# General structure of trace tree
-Yes = TypeVar('Y')
-No = TypeVar('N')
-tt = Dict[Any, Tuple[Any,Any]]
-TT = Union[Yes,No,tt]
-
 
 class NFA:
     Q = set()
@@ -139,6 +133,25 @@ class NFA:
 
     def __str__(self):
         return 'Q: {}\ndelta: {}\nq: {}\nF: {}\nsigma{}'.format(self.Q,self.delt,self.q,self.F,self.sigma)
+
+def union_nfa(A, B):
+    key_idx = max(A.delt.keys())+1
+    delt = {1: {None: {2,key_idx+1}}}
+    offset = 1
+    for k,v in A.delt.items():
+        delt[k+offset] = {k:{x+offset for x in v} for (k,v) in v.items()}
+    for k,v in B.delt.items():
+        delt[key_idx+k] = {k:{x+key_idx for x in v} for (k,v) in v.items()}
+    B.F = {x+key_idx for x in B.F}
+
+    return NFA(set(delt.keys()),
+        delt,
+        1,
+        A.F|B.F
+        )
+
+
+
 
 '''
 Q is a finite set called the states,
