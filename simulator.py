@@ -183,7 +183,27 @@ def concat_nfa(A, B):
         A.F|B.F
         )
 
+def kleene_star(nfa):
+    print()
+    pprint(nfa.delt)
+    delt = {1: {None : {2}}}
+    for k,v in nfa.delt.items():
+        delt[k+1] = {k:{x+1 for x in v} for (k,v) in v.items()}
+    last_idx = len(delt.items())+2
+    F = {x+1 for x in nfa.F}|{1}
+    for s in F-{1}:
+        try:
+            delt[s][None] |= {1}
+        except KeyError:
+            delt[s][None] = {1}
+    print()
+    pprint(delt)
+    print(F)
 
+    return NFA(set(delt.keys()),
+              delt,
+              1,
+              F)
 
 
 '''
