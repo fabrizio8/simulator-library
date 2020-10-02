@@ -61,3 +61,7 @@ def try_delta(f,*args):
 def num_to_baseN_str(n, b, syms=digits+ascii_uppercase):
     return ((n == 0) and syms[0]) or (num_to_baseN_str(n//b, b, syms).lstrip(syms[0]) + syms[n % b])
 
+
+def ptree(tt):
+    pass
+    

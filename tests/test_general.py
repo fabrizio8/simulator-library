@@ -3,6 +3,7 @@
 import pytest
 from simulator import *
 from example_nfa import *
+from pprint import pprint
 
 def test_alphabet_init():
     a = Alphabet('A', 'B', 1,2,3)
@@ -68,8 +69,12 @@ def test_dfa_to_nfa():
     assert nfa.accepted('25')
 
 def test_fork():
-    even_0_or_1.fork('0001')
+    print()
+    print(even_0_or_1.fork('0001'))
+    print(end='\n\n\n')
+    print(ends_in_1.fork('0001'))
+    assert False
+
+def test_backtracking():
     assert not even_0_or_1._accepted('0001')
     assert even_0_or_1._accepted('00011')
-    print()
-    ends_in_1.fork('0001')

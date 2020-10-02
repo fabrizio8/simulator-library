@@ -8,7 +8,6 @@ from anytree.exporter import DotExporter
 from anytree import Node, RenderTree
 from pprint import pprint
 
-
 class Alphabet:
     alphabet = []
     def __init__(self, *args):
@@ -77,7 +76,8 @@ class NFA:
         return next_states
 
     
-    def fork(self, string, out="", state='start', c=None):
+    def fork(self, string, state='start', c=None):
+        out = ""
         p = False
         if state == 'start':
             p = True
@@ -86,26 +86,22 @@ class NFA:
             out += "({}/{} [".format('e' if c is None else c,str(state))
         states = self.epsilon_transition(state)
         for s in [s for s in states if s != state]:
-            if p:
-                out += self.fork(string, out,s) + "])"
-            else:
-                return self.fork(string, out,s) + "])"
+            out += self.fork(string,s) + "])"
         if not string:
             if state in self.F:
-                return out+"Yes"
+                return out + "Yes"
             else:
-                return out+"No"
+                return out + "No"
         
         n_s = self.next_states({state}, string[0])
-        for i in n_s:
-            if p:
-                out += self.fork(string[1:],out,i,string[0]) + "])"
-            else:
-                return self.fork(string[1:],out,i,string[0]) + "])"
+        for s in n_s:
+            out += self.fork(string[1:],s,string[0]) + "])"
 
         if p:
             out = "({} [".format(str(state)) + out + "])" 
-            print(out)
+
+        return out
+
 
     def _accepted(self, string):
         states = self.epsilon_transition(self.q)
