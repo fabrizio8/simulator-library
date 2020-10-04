@@ -1,5 +1,7 @@
 from collections import deque
+from itertools import chain, combinations
 from string import ascii_uppercase, digits
+from typing import Union, List, Set
 
 def gen_graph(dfa):
     graph = {}
@@ -62,6 +64,6 @@ def num_to_baseN_str(n, b, syms=digits+ascii_uppercase):
     return ((n == 0) and syms[0]) or (num_to_baseN_str(n//b, b, syms).lstrip(syms[0]) + syms[n % b])
 
 
-def ptree(tt):
-    pass
-    
+def powerset(s: Union[List,Set]):
+    return chain.from_iterable(combinations(s, r) for r in range(len(s)+1))
+

@@ -76,9 +76,7 @@ class NFA:
         return next_states
 
     
-    def fork(self, string, state='start', c=None):
-        out = ""
-        p = False
+    def fork(self, string, state='start', c=None, out="", p=False):
         if state == 'start':
             p = True
             state = self.q
@@ -93,8 +91,7 @@ class NFA:
             else:
                 return out + "No"
         
-        n_s = self.next_states({state}, string[0])
-        for s in n_s:
+        for s in self.next_states({state}, string[0]):
             out += self.fork(string[1:],s,string[0]) + "])"
 
         if p:
@@ -111,6 +108,7 @@ class NFA:
 
         return True if any(s in self.F for s in states) else False
 
+    # naive accept function
     def accepted(self, string, trace=False, ret_trace=False):
         state = self.q
         output = ""
@@ -312,3 +310,31 @@ def gen_DFA_base_b_divisible_by_n(b,n):
             {'0'},
             set(digits))
 
+
+def compile(nfa):
+
+    Q = set()
+    delt = {}
+    q0 = tuple(nfa.epsilon_transition(nfa.q))
+    F = set()
+    sigma = nfa.sigma
+
+    states = deque()
+    states.append(q0)
+    while states:
+
+        current_states = tuple(states.popleft())
+        if current_states in Q:
+            continue
+        
+        Q.add(current_states)
+        delt[current_states] = {}
+        if (set(current_states) & nfa.F):
+            F.add(current_states)
+
+        for c in nfa.sigma:
+            next_current_states = tuple(nfa.next_states(current_states, c))
+            delt[current_states][c] = next_current_states
+            states.append(next_current_states)
+
+    return DFA(Q, lambda s,c: delt[s][c], q0, F)

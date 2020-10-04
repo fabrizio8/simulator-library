@@ -71,7 +71,7 @@ def test_dfa_to_nfa():
 def test_fork():
     print()
     print(even_0_or_1.fork('0001'))
-    print(end='\n\n\n')
+    print(end='\n')
     print(ends_in_1.fork('0001'))
     assert False
 
