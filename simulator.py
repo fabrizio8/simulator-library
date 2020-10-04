@@ -346,21 +346,30 @@ class RE(ABC):
     pass
 
 class RE_empty(RE):
-    pass
+    def __str__(self):
+        return ""
 class RE_epsilon(RE):
-    pass
+    def __str__(self):
+        return "ε"
 class RE_char(RE):
     def __init__(self, c):
         self.data = c
+    def __str__(self):
+        return self.data
 class RE_union(RE):
     def __init__(self, lhs, rhs):
         self.lhs = lhs
         self.rhs = rhs
+    def __str__(self):
+        return "({} ∪ {})".format(self.lhs, self.rhs)
 class RE_star(RE):
     def __init__(self, arg):
         self.data = arg
+    def __str__(self):
+        return "({})*".format(self.data)
 class RE_circ(RE):
     def __init__(self, lhs, rhs):
         self.lhs = lhs
         self.rhs = rhs
-
+    def __str__(self):
+        return "{} ⚬ {} ".format(self.lhs, self.rhs)
