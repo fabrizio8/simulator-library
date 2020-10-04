@@ -7,6 +7,7 @@ from string import digits
 from anytree.exporter import DotExporter
 from anytree import Node, RenderTree
 from pprint import pprint
+from abc import ABC
 
 class Alphabet:
     alphabet = []
@@ -315,6 +316,7 @@ def compile(nfa):
 
     Q = set()
     delt = {}
+    # States are now represented as tuples of states
     q0 = tuple(nfa.epsilon_transition(nfa.q))
     F = set()
     sigma = nfa.sigma
@@ -338,3 +340,27 @@ def compile(nfa):
             states.append(next_current_states)
 
     return DFA(Q, lambda s,c: delt[s][c], q0, F)
+
+
+class RE(ABC):
+    pass
+
+class RE_empty(RE):
+    pass
+class RE_epsilon(RE):
+    pass
+class RE_char(RE):
+    def __init__(self, c):
+        self.data = c
+class RE_union(RE):
+    def __init__(self, lhs, rhs):
+        self.lhs = lhs
+        self.rhs = rhs
+class RE_star(RE):
+    def __init__(self, arg):
+        self.data = arg
+class RE_circ(RE):
+    def __init__(self, lhs, rhs):
+        self.lhs = lhs
+        self.rhs = rhs
+
