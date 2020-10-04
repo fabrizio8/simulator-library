@@ -348,28 +348,46 @@ class RE(ABC):
 class RE_empty(RE):
     def __str__(self):
         return ""
+    def gen(self):
+        return False
 class RE_epsilon(RE):
     def __str__(self):
         return "ε"
+    def gen(self):
+        print("ε")
+
 class RE_char(RE):
     def __init__(self, c):
         self.data = c
     def __str__(self):
         return self.data
+    def gen(self):
+        print(self.data)
 class RE_union(RE):
     def __init__(self, lhs, rhs):
         self.lhs = lhs
         self.rhs = rhs
     def __str__(self):
         return "({} ∪ {})".format(self.lhs, self.rhs)
+    def gen(self):
+        x = self.lhs.gen(self)
+        return x if x is not False else rhs.gen()
 class RE_star(RE):
     def __init__(self, arg):
         self.data = arg
     def __str__(self):
         return "({})*".format(self.data)
+    def gen(self):
+        return RE_union(RE_epsilon, RE_circ(self.data, RE_star(self.data))).gen()
 class RE_circ(RE):
     def __init__(self, lhs, rhs):
         self.lhs = lhs
         self.rhs = rhs
     def __str__(self):
         return "{} ⚬ {} ".format(self.lhs, self.rhs)
+    def gen(self):
+        gx = self.lhs.gen()
+        gy = self.rhs.gen()
+        return RE_circ(gx, gy) if gx and gy else False
+
+
