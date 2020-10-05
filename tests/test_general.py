@@ -68,13 +68,6 @@ def test_dfa_to_nfa():
     nfa = dfa.to_NFA()
     assert nfa.accepted('25')
 
-def test_fork():
-    print()
-    print(even_0_or_1.fork('0001'))
-    print(end='\n')
-    print(ends_in_1.fork('0001'))
-    assert False
-
 def test_backtracking():
     assert not even_0_or_1._accepted('0001')
     assert even_0_or_1._accepted('00011')
