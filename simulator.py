@@ -389,5 +389,3 @@ class RE_circ(RE):
         gx = self.lhs.gen()
         gy = self.rhs.gen()
         return RE_circ(gx, gy) if gx and gy else False
-
-

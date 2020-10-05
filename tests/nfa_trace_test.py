@@ -38,6 +38,25 @@ def test_ends_in_1():
     for trace in traces:
         assert ends_in_1.oracle(*trace)
 
+
+def test_ends_in_0():
+    traces = [
+              ([('1', 1), ('1', 1), ('0', 1), ('0', 1), ('0', 1), ('1', 2)],True),
+              ([('1', 1), ('1', 1), ('0', 1), ('0', 1), ('0', 1), ('1', 1)],True),
+              ([('1', 1), ('1', 1), ('0', 1), ('0', 1), ('0', 1)],True),
+              ([('1', 1), ('1', 1), ('0', 1), ('0', 1)],True),
+              ([('1', 1)],True),
+              ([('0', 1)],True),
+              ([('0', 2)],False),
+              ([('1', 1), ('1', 1),('0', 2)],False),
+              ([('1', 1), ('1', 1), ('0', 1), ('0', 2)],False),
+              ([('1', 1), ('1', 1), ('0', 1), ('0', 2), ('0', 3)],False),
+              ([('1', 1), ('1', 1), ('0', 1), ('0', 1), ('0', 1), ('0', 2)],False),
+              ([('1', 1), ('1', 1), ('0', 1), ('0', 1), ('0', 1), ('0', 3)],False),
+            ]
+    for trace in traces:
+        assert ends_in_1.oracle(*trace)
+
 def test_subtring_101():
     traces = [
               ([('1', 2), ('1', 2), ('1', 2), ('1', 2), ('1', 2), ('1', 2)],True),
@@ -72,7 +91,7 @@ def test_one():
               ([('1', 2), ('1', 3), ('0', 3), ('0', 3), ('0', 3), ('0', 3)],False),
             ]
     for trace in traces:
-        assert one.oracle(*trace)
+        assert oneone.oracle(*trace)
 
 # accepts strings that contain at least two 0s or exactly two 1s
 def test_zero_or_one():
