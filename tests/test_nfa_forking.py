@@ -13,4 +13,3 @@ def test_ends_in_1():
         assert "(1 [(0/1 [(0/1 [(0/1 [(1/1 [No])(1/2 [Yes])])])])])" == ends_in_1.fork('0001')
     except:
         print(ends_in_1.fork('0001'))
-        assert False
