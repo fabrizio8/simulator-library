@@ -52,7 +52,7 @@ ends_with_01 = NFA({1,2,3},
                      3: {},
                     },
                     1,
-                    {4},
+                    {3},
                     binary)
 
 # Strings that begin with 11 and are followed by all 1s, all 0s, or nothing.
@@ -111,9 +111,22 @@ third_from_last_is_0 = NFA({1,2,3,4},
 
 ends_in_a = NFA({1,2},
                 {
-                 1: {'0': {1}, '1': {1,2}},
+                 1: {'a': {1,2}, 'b': {1}, 'c': {1}},
                  2: {None: {2}},
                 },
                 1,
                 {2},
-                binary)
+                )
+
+nfa_list  = [
+        even_0_or_1,
+        ends_in_1,
+        ends_in_0, 
+        substring_101,
+        ends_with_01, 
+        oneone, 
+        double1_0, 
+        zero_or_one, 
+        third_from_last_is_0, 
+        ends_in_a,
+]
