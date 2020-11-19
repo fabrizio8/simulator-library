@@ -13,7 +13,12 @@ def test_basic():
 
 def test_union():
     assert equal(f(10,2), f(10,2))
+    assert equal(f(10,4), f(10,4))
     assert equal(union(f(10,4),f(10,2)),union(f(10,2),f(10,4)))
+
+    assert equal(f(10,3), f(10,3))
+    assert equal(f(10,5), f(10,5))
+    assert equal(union(f(10,3),f(10,5)),union(f(10,5),f(10,3)))
 
 def test_intersect():
     for a,b in enumerate(range(1,7),2):
