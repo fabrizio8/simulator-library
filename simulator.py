@@ -101,6 +101,7 @@ class NFA:
         return out
 
 
+    # backtracking
     def _accepted(self, string):
         states = self.epsilon_transition(self.q)
 
