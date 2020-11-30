@@ -1,82 +1,79 @@
+import pytest
 from simulator import *
 from example_nfa import *
 
-def test_general():
-    a = compile(even_0_or_1)
-    b = compile(ends_in_1)
-    print(b)
-    assert not b.accepted("0010")
-    assert not b.accepted("")
-    assert not b.accepted("10")
-    assert b.accepted("111")
-    assert b.accepted("101")
-    assert b.accepted("100001")
-
 def test_even_0_or_1():
-    strings = [
-              ('10001',True),
-              ('10101',True),
-              ('', True),
-              ('1', True),
-              ('0', True),
-              ('1001', True),
-              ('10101',True),
+    traces = [
+              ([(None, 4), ('1', 5), ('0', 5), ('0', 5), ('0', 5), ('1', 4)],True),
+              ([(None, 4), ('1', 5), ('0', 5), ('1', 4), ('0', 4), ('1', 5)],True),
+              ([(None, 4)], True),
+              ([(None, 4)], True),
+              ([(None, 2)],True),
+              ([(None, 2)],True),
+              ([(None, 2), ('1', 4)],False),
+              ([(None, 2), ('1', 6)],False),
+              ([(None, 4), ('1', 3)], False),
+              ([(None, 2), ('0', 5)], False),
+              ([(None, 2), ('1', 5), ('0', 5), ('0', 5), ('1', 4)], False),
+              ([(None, 4), ('1', 5), ('0', 5), ('1', 5), ('0', 5), ('1', 5)],False),
             ]
-    for string in strings:
-        assert string[1] is compile(even_0_or_1).accepted(string[0])
+    for trace in traces:
+        assert even_0_or_1.oracle(*trace)
 
 def test_ends_in_1():
     traces = [
-              ('110001',True),
-              ('110001',True),
-              ('11000',False),
-              ('1100',False),
-              ('1',True),
-              ('0',False),
-              ('110',False),
-              ('1100',False),
-              ('11000',False),
-              ('110000',False),
-              ('110000',False),
+              ([('1', 1), ('1', 1), ('0', 1), ('0', 1), ('0', 1), ('1', 2)],True),
+              ([('1', 1), ('1', 1), ('0', 1), ('0', 1), ('0', 1), ('1', 1)],True),
+              ([('1', 1), ('1', 1), ('0', 1), ('0', 1), ('0', 1)],True),
+              ([('1', 1), ('1', 1), ('0', 1), ('0', 1)],True),
+              ([('1', 1)],True),
+              ([('0', 1)],True),
+              ([('0', 2)],False),
+              ([('1', 1), ('1', 1),('0', 2)],False),
+              ([('1', 1), ('1', 1), ('0', 1), ('0', 2)],False),
+              ([('1', 1), ('1', 1), ('0', 1), ('0', 2), ('0', 3)],False),
+              ([('1', 1), ('1', 1), ('0', 1), ('0', 1), ('0', 1), ('0', 2)],False),
+              ([('1', 1), ('1', 1), ('0', 1), ('0', 1), ('0', 1), ('0', 3)],False),
             ]
     for trace in traces:
-        assert trace[1] is compile(ends_in_1).accepted(trace[0])
+        assert ends_in_1.oracle(*trace)
 
 
 def test_ends_in_0():
     traces = [
-              ('1100011',False),
-              ('1100011',False),
-              ('110001',False),
-              ('1100',True),
-              ('00',True),
-              ('0',True),
-              ('1',False),
-              ('111',False),
-              ('1101',False),
-              ('11010',True),
-              ('110100',True),
-              ('110100',True),
+              ([('1', 1), ('1', 1), ('0', 1), ('0', 1), ('0', 1), ('1', 1)],True),
+              ([('1', 1), ('1', 1), ('0', 1), ('0', 1), ('0', 1), ('1', 1)],True),
+              ([('1', 1), ('1', 1), ('0', 1), ('0', 1), ('0', 1)],True),
+              ([('1', 1), ('1', 1), ('0', 1), ('0', 1)],True),
+              ([('0', 1), ('0', 2)],True),
+              ([('0', 2)],True),
+              ([('1', 2)],False),
+              ([('1', 1), ('1', 1),('1', 2)],False),
+              ([('1', 1), ('1', 1), ('0', 1), ('1', 2)],False),
+              ([('1', 1), ('1', 1), ('0', 1), ('1', 2), ('0', 3)],False),
+              ([('1', 1), ('1', 2), ('0', 1), ('1', 1), ('0', 1), ('0', 2)],False),
+              ([('1', 1), ('1', 2), ('0', 1), ('1', 1), ('0', 1), ('0', 3)],False),
             ]
     for trace in traces:
-        assert trace[1] is compile(ends_in_0).accepted(trace[0])
+        assert ends_in_0.oracle(*trace)
 
 def test_subtring_101():
     traces = [
-              ('111111',False),
-              ('00000',False),
-              ('1110',False),
-              ('110',False),
-              ('1',False),
-              ('0',False),
-              ('110',False),
-              ('1100',False),
-              ('1101',True),
-              ('11000',False),
-              ('11010',True),
+              ([('1', 2), ('1', 2), ('1', 2), ('1', 2), ('1', 2), ('1', 2)],True),
+              ([('0', 1), ('0', 1), ('0', 1), ('0', 1), ('0', 1)],True),
+              ([('1', 2), ('1', 2), ('1', 2), ('0', 3)],True),
+              ([('1', 1), ('1', 1), ('0', 1)],True),
+              ([('1', 1)],True),
+              ([('0', 1)],True),
+              ([('0', 2)],False),
+              ([('1', 1), ('1', 1),('0', 2)],False),
+              ([('1', 1), ('1', 1), ('0', 1), ('0', 2)],False),
+              ([('1', 1), ('1', 1), ('0', 1), ('0', 2), ('0', 3)],False),
+              ([('1', 1), ('1', 1), ('0', 1), ('0', 1), ('0', 1), ('0', 2)],False),
+              ([('1', 1), ('1', 1), ('0', 1), ('0', 1), ('0', 1), ('0', 3)],False),
             ]
     for trace in traces:
-        assert trace[1] is compile(substring_101).accepted(trace[0])
+        assert substring_101.oracle(*trace)
 
 def test_ends_with_01():
     traces = [
