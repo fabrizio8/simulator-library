@@ -5,3 +5,7 @@ def test_general():
                          RE_star(RE_union(RE_char('0'), RE_epsilon())))
     print(re)
     re.gen()
+    for re in re_list:
+        print(re)
+
+
