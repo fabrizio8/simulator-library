@@ -351,11 +351,16 @@ class RE_empty(RE):
         return ""
     def gen(self):
         return False
+    def compile(self):
+        return NFA({1},{1:{}},1,{})
+
 class RE_epsilon(RE):
     def __str__(self):
         return "ε"
     def gen(self):
         print("ε")
+    def compile(self):
+        return NFA({1},{1:{}},1,{1})
 
 class RE_char(RE):
     def __init__(self, c):
@@ -364,6 +369,9 @@ class RE_char(RE):
         return self.data
     def gen(self):
         print(self.data)
+    def compile(self):
+        return NFA({1,2},{1:{self.data: {2}}, 2: {}},1,{2})
+
 class RE_union(RE):
     def __init__(self, lhs, rhs):
         self.lhs = lhs
@@ -373,6 +381,9 @@ class RE_union(RE):
     def gen(self):
         x = self.lhs.gen(self)
         return x if x is not False else rhs.gen()
+    def compile(self):
+        return union_nfa(self.lhs.compile(), self.rhs.compile())
+
 class RE_star(RE):
     def __init__(self, arg):
         self.data = arg
@@ -380,6 +391,9 @@ class RE_star(RE):
         return "({})*".format(self.data)
     def gen(self):
         return RE_union(RE_epsilon, RE_circ(self.data, RE_star(self.data))).gen()
+    def compile(self):
+        return kleene_star(self.data.compile())
+
 class RE_circ(RE):
     def __init__(self, lhs, rhs):
         self.lhs = lhs
@@ -390,3 +404,7 @@ class RE_circ(RE):
         gx = self.lhs.gen()
         gy = self.rhs.gen()
         return RE_circ(gx, gy) if gx and gy else False
+    def compile(self):
+        return concat_nfa(self.lhs.compile(), self.rhs.compile())
+
+

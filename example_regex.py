@@ -12,7 +12,7 @@ all_zero = RE_star(zero)
 zero_followed_by_ones = RE_circ(all_one,all_zero)
 #01, 0011, 000001, 011111
 
-zero_or_one = RE_union(one,zero)
+zero_or_one = RE_circ(one,zero)
 #01, 10
 
 any_amount_0_or_1 = RE_star(zero_or_one)
