@@ -340,7 +340,7 @@ def compile(nfa):
             delt[current_states][c] = next_current_states
             states.append(next_current_states)
 
-    return DFA(Q, lambda s,c: delt[s][c], q0, F)
+    return DFA(Q, lambda s,c: delt[s][c], q0, F, sigma)
 
 
 class RE(ABC):

@@ -32,21 +32,3 @@ def test_compile():
     assert a.accepted('')
     assert a.accepted('1')
     assert a.accepted('10')
-
-'''
-    b = kleene_star(third_from_last_is_0)
-    assert b._accepted('111100011000')
-
-    c = kleene_star(is_one)
-    assert c._accepted('1')
-    assert not c._accepted('0')
-    assert c._accepted('1111')
-
-    d = concat_nfa(is_zero_or_one, is_zero_or_one)
-    assert d._accepted('11')
-    assert not d._accepted('111')
-    d = kleene_star(a)
-    assert d._accepted('11')
-    assert d._accepted('101010')
-    assert d._accepted('1010101111')
-'''

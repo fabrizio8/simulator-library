@@ -4,13 +4,29 @@ from example_nfa import *
 def test_general():
     a = compile(even_0_or_1)
     b = compile(ends_in_1)
-    print(b)
-    assert not b.accepted("0010")
-    assert not b.accepted("")
-    assert not b.accepted("10")
-    assert b.accepted("111")
-    assert b.accepted("101")
-    assert b.accepted("100001")
+    ends_in_1_DFA = DFA({(1,),(1,2)},
+            lambda s,c: {(1): (1) if c == '0' else (1,2),
+                        (1,2): (1) if c == '1' else (1,2)}[s],
+                        (1,),
+                        {(1,2)},
+                        {'0','1'})
+
+    even_0_or_1_DFA = DFA({(2, 4), (3, 4), (2, 5), (1, 2, 4), (3, 5)},
+                    lambda s,c: {
+                        (2, 4): (2, 5) if c == '1' else (3, 4),
+                        (3, 4): (2, 4) if c == '0' else(3, 5),
+                        (2, 5): (2, 4) if c == '1' else(3, 5),
+                        (3, 5): (2, 5) if c == '0' else(3, 4),
+                        (1, 2, 4): (2, 5) if c == '1' else (3, 4),
+                        }[s],
+                    (1, 2, 4),
+                    {(2, 4), (2, 5), (1, 2, 4), (3, 4)},
+                    {'1', '0'})
+
+
+    assert equal(b, ends_in_1_DFA)
+    assert equal(a, even_0_or_1_DFA)
+
 
 def test_even_0_or_1():
     strings = [
