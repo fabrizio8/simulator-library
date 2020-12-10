@@ -65,7 +65,8 @@ oneone = NFA({1,2,3,4,5},
             5: {},
           },
           1,
-          {3,4,5}
+          {3,4,5},
+          binary
         )
 
 #double 1 is followed by double 0
@@ -78,7 +79,8 @@ double1_0 = NFA({1,2,3,4,5},
             5: {'0': {5}, '1': {5}},
           },
           1,
-          {5}
+          {5},
+          binary
         )
 
 # I don't know what this is supposed to mean but it gives you strings ending in zero or one
@@ -105,7 +107,8 @@ third_from_last_is_0 = NFA({1,2,3,4},
             4: {},
           },
           1,
-          {4}
+          {4},
+          binary
         )
 
 
@@ -116,6 +119,7 @@ ends_in_a = NFA({1,2},
                 },
                 1,
                 {2},
+                {'a', 'b', 'c', 'd'}
                 )
 
 is_one = NFA({1,2},
