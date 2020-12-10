@@ -199,7 +199,8 @@ def kleene_star(nfa):
     return NFA(set(delt.keys()),
               delt,
               1,
-              F)
+              F,
+              nfa.sigma)
 
 
 '''

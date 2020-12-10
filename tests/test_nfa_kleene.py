@@ -32,3 +32,5 @@ def test_compile():
     assert a.accepted('')
     assert a.accepted('1')
     assert a.accepted('10')
+    assert a.accepted('11')
+    assert a.accepted('10101010101011')
